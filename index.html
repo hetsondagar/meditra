@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>meditra</title>
+    <meta name="description" content="Take control of your well-being with Meditra's futuristic health management platform featuring AI-powered insights, telemedicine, and personalized care." />
+    <meta name="author" content="Meditra Health Solutions" />
+
+    <!-- Early theme init to avoid flash -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('meditra-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var theme = stored === 'light' || stored === 'dark' ? stored : (prefersDark ? 'dark' : 'light');
+          var root = document.documentElement;
+          if (theme === 'dark') root.classList.add('dark'); else root.classList.remove('dark');
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Brand Font: Poiret One for wordmark -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poiret+One&display=swap" rel="stylesheet">
+
+    <!-- Favicon using transparent PNG -->
+    <link rel="icon" type="image/png" href="/logomain.png" />
+
+    <meta property="og:title" content="meditra" />
+    <meta property="og:description" content="Take control of your well-being with Meditra's futuristic health management platform featuring AI-powered insights, telemedicine, and personalized care." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@meditra_health" />
+    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
