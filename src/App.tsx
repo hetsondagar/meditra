@@ -24,6 +24,11 @@ import VirtualConsultation from "./pages/VirtualConsultation";
 import AIRecommendations from "./pages/AIRecommendations";
 import CalendarPlanner from "./pages/CalendarPlanner";
 import Analytics from "./pages/Analytics";
+import PatientProfile from "./pages/PatientProfile";
+import AppointmentScheduler from "./pages/AppointmentScheduler";
+import HealthAnalytics from "./pages/HealthAnalytics";
+import MedicationTracker from "./pages/MedicationTracker";
+import WellnessCoach from "./pages/WellnessCoach";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -54,6 +59,11 @@ const App = () => (
           <Route path="/ai-recommendations" element={<AIRecommendations />} />
           <Route path="/calendar-planner" element={<CalendarPlanner />} />
           <Route path="/analytics" element={<Analytics />} />
+          <Route path="/patient-profile" element={<PatientProfile />} />
+          <Route path="/appointment-scheduler" element={<AppointmentScheduler />} />
+          <Route path="/health-analytics" element={<HealthAnalytics />} />
+          <Route path="/medication-tracker" element={<MedicationTracker />} />
+          <Route path="/wellness-coach" element={<WellnessCoach />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Toaster />

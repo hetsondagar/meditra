@@ -56,22 +56,54 @@ const Index = () => {
           <RecentReports />
         </section>
 
-        {/* Explore other features */}
+        {/* New Interactive Features */}
         <section className="animate-fade-in-up" style={{ animationDelay: "900ms" }}>
-          <h2 className="text-xl font-semibold mb-4">Explore features</h2>
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold mb-2">🌟 New Interactive Features</h2>
+            <p className="text-muted-foreground">Experience our latest health management tools with advanced animations and interactions</p>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-12">
+            {[
+              ["Patient Profile", "/patient-profile", "Complete health overview with animated metrics"],
+              ["Appointment Scheduler", "/appointment-scheduler", "Interactive calendar with booking system"],
+              ["Health Analytics", "/health-analytics", "Data visualization with animated charts"],
+              ["Medication Tracker", "/medication-tracker", "Smart reminders with adherence tracking"],
+              ["Wellness Coach", "/wellness-coach", "Mindfulness tools with breathing exercises"],
+            ].map(([label, href, description]) => (
+              <Link key={href as string} to={href as string} className="group glass rounded-xl p-6 hover-lift border-2 border-transparent hover:border-primary/20 transition-all duration-300">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="font-semibold text-lg">{label as string}</span>
+                    <span className="text-primary group-hover:translate-x-1 transition-transform">→</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">{description as string}</p>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">Interactive</span>
+                    <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">New</span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* All Features */}
+        <section className="animate-fade-in-up" style={{ animationDelay: "1000ms" }}>
+          <h2 className="text-xl font-semibold mb-4">All Features</h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[
+              // Existing Pages
               ["Appointments", "/appointments"],
-              ["Medication Tracker", "/medication"],
+              ["Medication", "/medication"],
               ["Health Records", "/records"],
-              ["Nutrition Scanner", "/nutrition"],
+              ["Nutrition Scanner", "/nutrition-scanner"],
               ["Genomics", "/genomics"],
-              ["Emotion & Cognition", "/emotion"],
-              ["Wellness Plans", "/wellness"],
+              ["Emotion & Cognition", "/emotion-cognition"],
+              ["Wellness Plans", "/wellness-plans"],
               ["Emergency", "/emergency"],
               ["Pharmacy", "/pharmacy"],
-              ["Community", "/community"],
-              ["Health Vault", "/vault"],
+              ["Community", "/mentor-community"],
+              ["Health Vault", "/health-vault"],
               ["Clinical Trials", "/trials"],
               ["Home Health Kit", "/home-kit"],
               ["Settings", "/settings"],
@@ -87,7 +119,7 @@ const Index = () => {
         </section>
 
         {/* Footer CTA */}
-        <section className="text-center py-12 animate-fade-in-up" style={{ animationDelay: "1000ms" }}>
+        <section className="text-center py-12 animate-fade-in-up" style={{ animationDelay: "1100ms" }}>
           <div className="glass rounded-2xl p-8 max-w-4xl mx-auto border border-border/30">
             <h2 className="text-2xl font-bold text-card-foreground mb-4">
               Take control of your health journey
