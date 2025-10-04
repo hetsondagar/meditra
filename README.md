@@ -1,73 +1,54 @@
-# Welcome to your Lovable project
+# Meditra - Healthcare Management System
 
-## Project info
+A comprehensive healthcare management system with separate frontend and backend components.
 
-**URL**: https://lovable.dev/projects/8f0e820c-ee79-470f-9b56-4edbd3096f44
+## Project Structure
 
-## How can I edit this code?
+```
+meditra/
+├── frontend/          # React-based frontend application
+│   ├── src/          # Source code
+│   ├── public/       # Public assets
+│   ├── dist/         # Build output
+│   └── ...           # Configuration files
+├── backend/          # Backend API (to be implemented)
+│   └── README.md     # Backend setup instructions
+└── README.md         # This file
+```
 
-There are several ways of editing your application.
+## Frontend
 
-**Use Lovable**
+The frontend is a React application built with:
+- React 18
+- TypeScript
+- Vite
+- Tailwind CSS
+- Shadcn/ui components
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/8f0e820c-ee79-470f-9b56-4edbd3096f44) and start prompting.
+### Getting Started with Frontend
 
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+cd frontend
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Backend
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+The backend folder is currently empty and ready for development. Choose your preferred backend technology and follow the setup instructions in the backend README.
 
-**Use GitHub Codespaces**
+## Development
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+1. Start the frontend development server
+2. Set up your backend API
+3. Configure API endpoints in the frontend
+4. Begin full-stack development
 
-## What technologies are used for this project?
+## Features
 
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/8f0e820c-ee79-470f-9b56-4edbd3096f44) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+- Patient management
+- Appointment scheduling
+- Health analytics
+- Medication tracking
+- Virtual consultations
+- And much more...
