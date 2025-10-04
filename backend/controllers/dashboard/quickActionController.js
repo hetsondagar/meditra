@@ -1,6 +1,3 @@
-// controllers/quickActionController.js
-
-// Reminders
 exports.getReminders = async (req, res) => {
   try {
     const reminders = [
@@ -11,7 +8,6 @@ exports.getReminders = async (req, res) => {
     res.status(500).json({ success: false, message: "Error fetching reminders" });
   }
 };
-
 exports.addMedicationReminder = async (req, res) => {
   try {
     const { medication, time } = req.body;
@@ -20,8 +16,6 @@ exports.addMedicationReminder = async (req, res) => {
     res.status(500).json({ success: false, message: "Error adding medication reminder" });
   }
 };
-
-// AI Consultation
 exports.consultAI = async (req, res) => {
   try {
     const { query } = req.body;
@@ -33,8 +27,6 @@ exports.consultAI = async (req, res) => {
     res.status(500).json({ success: false, message: "AI consultation failed" });
   }
 };
-
-// Nutrition Scanner
 exports.scanNutrition = async (req, res) => {
   try {
     const { foodItem } = req.body;
@@ -47,8 +39,6 @@ exports.scanNutrition = async (req, res) => {
     res.status(500).json({ success: false, message: "Error scanning nutrition" });
   }
 };
-
-// Emergency
 exports.triggerEmergencyAlert = async (req, res) => {
   try {
     const { location } = req.body;
@@ -57,8 +47,6 @@ exports.triggerEmergencyAlert = async (req, res) => {
     res.status(500).json({ success: false, message: "Error triggering alert" });
   }
 };
-
-// Appointments
 exports.getAppointments = async (req, res) => {
   try {
     const appointments = [
@@ -69,7 +57,6 @@ exports.getAppointments = async (req, res) => {
     res.status(500).json({ success: false, message: "Error fetching appointments" });
   }
 };
-
 exports.bookAppointment = async (req, res) => {
   try {
     const { doctor, date, time } = req.body;
