@@ -1,0 +1,10 @@
+const router = require("express").Router();
+const healthRoutes = require("./healthRoutes");
+const planRoutes = require("./planRoutes");
+const reportRoutes = require("./reportRoutes");
+const quickActionRoutes = require("./quickActionRoutes");
+router.use("/health", healthRoutes);
+router.use("/plan", planRoutes);
+router.use("/reports", reportRoutes);
+router.use("/quick-actions", quickActionRoutes);
+module.exports = router;

@@ -1,0 +1,10 @@
+const router = require("express").Router();
+const quickActionController = require("../../controllers/dashboard/quickActionController");
+router.get("/reminders/notifications", quickActionController.getReminders);
+router.post("/reminders/medications", quickActionController.addMedicationReminder);
+router.post("/consult/ai", quickActionController.consultAI);
+router.post("/nutrition/scan", quickActionController.scanNutrition);
+router.post("/emergency/alert", quickActionController.triggerEmergencyAlert);
+router.get("/appointments", quickActionController.getAppointments);
+router.post("/appointments", quickActionController.bookAppointment);
+module.exports = router;

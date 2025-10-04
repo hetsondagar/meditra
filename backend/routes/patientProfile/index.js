@@ -1,0 +1,12 @@
+const router = require("express").Router();
+const allergiesRoutes = require("./allergiesRoutes");
+const eventsRoutes = require("./eventsRoutes");
+const labReportsRoutes = require("./labReportsRoutes");
+const medicationRoutes = require("./medicationRoutes");
+const metricsRoutes = require("./metricsRoutes");
+router.use("/allergies", allergiesRoutes);
+router.use("/events",eventsRoutes);
+router.use("/lab-reports", labReportsRoutes);
+router.use("/medication", medicationRoutes);
+router.use("/metrics", metricsRoutes);
+module.exports = router;

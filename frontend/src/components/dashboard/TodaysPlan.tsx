@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { Clock, CheckCircle, AlertCircle, Calendar } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -13,62 +15,56 @@ interface PlanItem {
 }
 
 export const TodaysPlan = () => {
-  const planItems: PlanItem[] = [
-    {
-      id: "1",
-      time: "09:00 AM",
-      title: "Morning Medication",
-      description: "Metformin 500mg, Vitamin D",
-      type: "medication",
-      completed: true
-    },
-    {
-      id: "2", 
-      time: "10:30 AM",
-      title: "Dr. Johnson Consultation",
-      description: "Quarterly checkup - Video call",
-      type: "appointment",
-      completed: false,
-      urgent: true
-    },
-    {
-      id: "3",
-      time: "02:00 PM",
-      title: "Afternoon Walk",
-      description: "30 minutes cardio exercise",
-      type: "exercise",
-      completed: false
-    },
-    {
-      id: "4",
-      time: "08:00 PM",
-      title: "Evening Medication",
-      description: "Blood pressure medication",
-      type: "medication",
-      completed: false
-    }
-  ];
+  const [planItems, setPlanItems] = useState<PlanItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const getIcon = (type: string, completed: boolean) => {
     if (completed) return CheckCircle;
-    
     switch (type) {
-      case "medication": return AlertCircle;
-      case "appointment": return Calendar;
-      default: return Clock;
+      case "medication":
+        return AlertCircle;
+      case "appointment":
+        return Calendar;
+      default:
+        return Clock;
     }
   };
 
   const getTypeColor = (type: string, completed: boolean) => {
     if (completed) return "text-success";
-    
     switch (type) {
-      case "medication": return "text-warning";
-      case "appointment": return "text-primary";
-      case "exercise": return "text-secondary-dark";
-      default: return "text-muted-foreground";
+      case "medication":
+        return "text-warning";
+      case "appointment":
+        return "text-primary";
+      case "exercise":
+        return "text-secondary-dark";
+      default:
+        return "text-muted-foreground";
     }
   };
+
+  useEffect(() => {
+    const fetchTodaysPlan = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/dashboard/plan/today`);
+        if (res.data.success) setPlanItems(res.data.data);
+      } catch (err) {
+        console.error("Error fetching today's plan:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTodaysPlan();
+  }, []);
+
+  if (loading)
+    return <p className="text-center text-muted-foreground">Loading today's plan...</p>;
+  if (!planItems.length)
+    return <p className="text-center text-destructive">No plan items for today.</p>;
+
+  const completedCount = planItems.filter((item) => item.completed).length;
 
   return (
     <div className="space-y-6">
@@ -79,14 +75,12 @@ export const TodaysPlan = () => {
         </div>
         <div className="flex items-center gap-2">
           <span className="text-sm text-muted-foreground">
-            {planItems.filter(item => item.completed).length} of {planItems.length} completed
+            {completedCount} of {planItems.length} completed
           </span>
           <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">
-            <div 
+            <div
               className="h-full bg-gradient-primary transition-all duration-500"
-              style={{ 
-                width: `${(planItems.filter(item => item.completed).length / planItems.length) * 100}%` 
-              }}
+              style={{ width: `${(completedCount / planItems.length) * 100}%` }}
             />
           </div>
         </div>
@@ -96,25 +90,27 @@ export const TodaysPlan = () => {
         {planItems.map((item, index) => {
           const Icon = getIcon(item.type, item.completed);
           const colorClass = getTypeColor(item.type, item.completed);
-          
+
           return (
-            <Card 
+            <Card
               key={item.id}
               className={`
                 p-4 border-border/30 hover-lift transition-all duration-300 animate-fade-in
-                ${item.urgent && !item.completed ? 'ring-2 ring-warning/20 bg-warning/5' : ''}
-                ${item.completed ? 'opacity-75' : ''}
+                ${item.urgent && !item.completed ? "ring-2 ring-warning/20 bg-warning/5" : ""}
+                ${item.completed ? "opacity-75" : ""}
               `}
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <div className="flex items-center gap-4">
-                <div className={`
-                  p-2 rounded-lg transition-colors
-                  ${item.completed ? 'bg-success/20' : 'bg-muted/50'}
-                `}>
+                <div
+                  className={`
+                    p-2 rounded-lg transition-colors
+                    ${item.completed ? "bg-success/20" : "bg-muted/50"}
+                  `}
+                >
                   <Icon className={`h-5 w-5 ${colorClass}`} />
                 </div>
-                
+
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-sm font-medium text-primary">{item.time}</span>
@@ -124,22 +120,35 @@ export const TodaysPlan = () => {
                       </span>
                     )}
                   </div>
-                  <h3 className={`
-                    font-semibold text-card-foreground
-                    ${item.completed ? 'line-through' : ''}
-                  `}>
+                  <h3
+                    className={`font-semibold text-card-foreground ${
+                      item.completed ? "line-through" : ""
+                    }`}
+                  >
                     {item.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    {item.description}
-                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">{item.description}</p>
                 </div>
 
                 {!item.completed && (
-                  <Button 
-                    size="sm" 
+                  <Button
+                    size="sm"
                     variant="outline"
                     className="hover:bg-primary/10 hover:border-primary/50 transition-colors"
+                    onClick={async () => {
+                      try {
+                        await axios.post(
+                          `${import.meta.env.VITE_BACKEND_URL}/dashboard/plan/${item.id}/complete`
+                        );
+                        setPlanItems((prev) =>
+                          prev.map((p) =>
+                            p.id === item.id ? { ...p, completed: true } : p
+                          )
+                        );
+                      } catch (err) {
+                        console.error("Error marking item complete:", err);
+                      }
+                    }}
                   >
                     Mark Done
                   </Button>
