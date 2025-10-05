@@ -21,9 +21,7 @@ AlertCircle,
  Eye,
  Bone
 } from "lucide-react";
-
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
-
 interface Appointment {
  id: string;
  date: string;
@@ -36,7 +34,6 @@ type: "in-person" | "virtual";
  location?: string;
  notes?: string;
 }
-
 interface Notification {
  id: string;
  title: string;
@@ -46,7 +43,6 @@ interface Notification {
  read: boolean;
  priority: "high" | "medium" | "low";
 }
-
 interface Doctor {
  id: string;
  name: string;
@@ -54,16 +50,12 @@ interface Doctor {
  icon: any;
  availableSlots: string[];
 }
-
 const AppointmentScheduler = () => { const [currentMonth, setCurrentMonth] = useState(new Date()); const [appointments, setAppointments] = useState<Appointment[]>([]); const [notifications, setNotifications] = useState<Notification[]>([]); const [doctors, setDoctors] = useState<Doctor[]>([]);
-
- // Fetch all backend data
  useEffect(() => {
   fetchAppointments();
   fetchNotifications();
   fetchDoctors();
  }, []);
-
  const fetchAppointments = async () => {
   try {
   const res = await axios.get(`${BACKEND_URL}/api/appointments-scheduler/appointments`);
@@ -72,7 +64,6 @@ const AppointmentScheduler = () => { const [currentMonth, setCurrentMonth] = use
 console.error("Failed to fetch appointments", err);
   }
  };
-
  const fetchNotifications = async () => {
   try {
    const res = await axios.get(`${BACKEND_URL}/api/appointments-scheduler/notifications`);
@@ -81,7 +72,6 @@ console.error("Failed to fetch appointments", err);
  console.error("Failed to fetch notifications", err);
   }
  };
-
  const fetchDoctors = async () => {
  try {
   const res = await axios.get(`${BACKEND_URL}/api/appointments-scheduler/doctors`);
@@ -94,7 +84,6 @@ console.error("Failed to fetch appointments", err);
    console.error("Failed to fetch doctors", err);
   }
  };
-
  const getStatusColor = (status: string) => {
   switch (status) {
    case "confirmed": return "bg-green-100 text-green-800";
@@ -103,7 +92,6 @@ console.error("Failed to fetch appointments", err);
    default: return "bg-gray-100 text-gray-800";
   }
  };
-
  const getSpecialtyIcon = (specialty: string) => {
  switch(specialty) {
  case "Cardiology": return Heart;
@@ -114,7 +102,6 @@ case "Orthopedics": return Bone;
  default: return Stethoscope;
  }
 };
-
  const deleteAppointment = async (id: string) => {
  try {
 await axios.delete(`${BACKEND_URL}/api/appointments-scheduler/appointments/${id}`);
@@ -123,7 +110,6 @@ await axios.delete(`${BACKEND_URL}/api/appointments-scheduler/appointments/${id}
  console.error("Failed to delete appointment", err);
  }
  };
-
 const generateCalendarDays = () => {
  const year = currentMonth.getFullYear();
  const month = currentMonth.getMonth();
@@ -138,21 +124,16 @@ currentDate.setDate(currentDate.getDate() + 1);
 }
  return days;
  };
-
- // NEW HELPER FUNCTION: Get a YYYY-MM-DD string without UTC skew
  const getLocalDateString = (date: Date) => {
  const year = date.getFullYear();
  const month = (date.getMonth() + 1).toString().padStart(2, '0');
  const day = date.getDate().toString().padStart(2, '0');
  return `${year}-${month}-${day}`;
  };
-
  const hasAppointmentOnDate = (date: Date) => {
- // Use the local date string for accurate comparison
 const dateStr = getLocalDateString(date);
  return appointments.some(a => a.date === dateStr);
  };
-
  const navigateMonth = (direction: 'prev' | 'next') => {
  setCurrentMonth(prev => {
  const newMonth = new Date(prev);
@@ -160,11 +141,8 @@ const dateStr = getLocalDateString(date);
  return newMonth;
 });
  };
-
  return (
  <PageLayout title="Appointment Scheduler" subtitle="Manage appointments & notifications">
-
-{/* Notifications (omitted for brevity) */}
 <div className="mb-6">
  {notifications.map(n => (
 <Card key={n.id} className="mb-2">
@@ -178,7 +156,6 @@ const dateStr = getLocalDateString(date);
  </Card>
  ))}
  </div>
-
 <Separator className="my-4" />
 <Card className="mb-6">
   <CardHeader className="flex items-center justify-between">
