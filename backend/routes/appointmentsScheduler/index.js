@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const appointmentRoutes = require("./appointmentRoutes");
 const doctorsRoutes = require("./doctorsRoutes");
-const notificationRoutes = require("./notificationRoutes");
-router.use("/appointments", healthRoutes);
-router.use("/doctors", planRoutes);
-router.use("/notifications", reportRoutes);
+const notificationRoutes = require("./notificationsRoutes");
+router.use("/appointments", appointmentRoutes);
+router.use("/doctors", doctorsRoutes);
+router.use("/notifications", notificationRoutes);
 module.exports = router;

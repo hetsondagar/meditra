@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json()); 
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/profile', patientProfileRoutes);
-app.use('/api/appointments-scheduler', appointmentsSchedulerRoutes);
+app.use('/api/appointments-scheduler', appointmentRoutes);
 app.get('/', (req, res) => {
   res.send('Server is running');
 });

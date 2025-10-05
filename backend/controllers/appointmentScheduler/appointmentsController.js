@@ -46,3 +46,20 @@ exports.addAppointment = async (req, res) => {
     res.status(500).json({ success: false, message: "Error adding appointment" });
   }
 };
+
+// Delete appointment by ID
+exports.deleteAppointment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const index = appointments.findIndex(a => a.id === id);
+
+    if (index === -1) {
+      return res.status(404).json({ success: false, message: "Appointment not found" });
+    }
+
+    appointments.splice(index, 1);
+    res.status(200).json({ success: true, message: "Appointment deleted" });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Error deleting appointment" });
+  }
+};
