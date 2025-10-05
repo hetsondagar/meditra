@@ -4,221 +4,246 @@ import PageLayout from "@/components/PageLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { 
-  Calendar, 
-  Clock, 
-  Bell, 
-  Plus,
-  ChevronLeft,
-  ChevronRight,
-  CheckCircle2,
-  AlertCircle,
-  XCircle,
-  Video,
-  MapPin,
-  Stethoscope,
-  Heart,
-  Brain,
-  Eye,
-  Bone
+ Calendar, 
+ Clock, 
+ Bell, 
+ Plus,
+ ChevronLeft,
+ ChevronRight,
+ CheckCircle2,
+AlertCircle,
+ XCircle,
+ Stethoscope,
+ Heart,
+ Brain,
+ Eye,
+ Bone
 } from "lucide-react";
-
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
-
 interface Appointment {
-  id: string;
-  date: string;
-  time: string;
-  doctorId: string;
-  doctor: string;
-  specialty: string;
-  type: "in-person" | "virtual";
-  status: "confirmed" | "pending" | "cancelled";
-  location?: string;
-  notes?: string;
+ id: string;
+ date: string;
+ time: string;
+ doctorId: string;
+ doctor: string;
+ specialty: string;
+type: "in-person" | "virtual";
+ status: "confirmed" | "pending" | "cancelled";
+ location?: string;
+ notes?: string;
 }
-
 interface Notification {
-  id: string;
-  title: string;
-  message: string;
-  type: "appointment" | "reminder" | "result" | "alert";
-  time: string;
-  read: boolean;
-  priority: "high" | "medium" | "low";
+ id: string;
+ title: string;
+ message: string;
+ type: "appointment" | "reminder" | "result" | "alert";
+ time: string;
+ read: boolean;
+ priority: "high" | "medium" | "low";
 }
-
 interface Doctor {
-  id: string;
-  name: string;
-  specialty: string;
-  icon: any;
-  availableSlots: string[];
+ id: string;
+ name: string;
+ specialty: string;
+ icon: any;
+ availableSlots: string[];
 }
+const AppointmentScheduler = () => { const [currentMonth, setCurrentMonth] = useState(new Date()); const [appointments, setAppointments] = useState<Appointment[]>([]); const [notifications, setNotifications] = useState<Notification[]>([]); const [doctors, setDoctors] = useState<Doctor[]>([]);
+ useEffect(() => {
+  fetchAppointments();
+  fetchNotifications();
+  fetchDoctors();
+ }, []);
+ const fetchAppointments = async () => {
+  try {
+  const res = await axios.get(`${BACKEND_URL}/api/appointments-scheduler/appointments`);
+   setAppointments(res.data.data || []);
+  } catch (err) {
+console.error("Failed to fetch appointments", err);
+  }
+ };
+ const fetchNotifications = async () => {
+  try {
+   const res = await axios.get(`${BACKEND_URL}/api/appointments-scheduler/notifications`);
+   setNotifications(res.data.data || []);
+  } catch (err) {
+ console.error("Failed to fetch notifications", err);
+  }
+ };
+ const fetchDoctors = async () => {
+ try {
+  const res = await axios.get(`${BACKEND_URL}/api/appointments-scheduler/doctors`);
+  const doctorsWithIcons = res.data.data.map((doc: any) => ({
+   ...doc,
+   icon: getSpecialtyIcon(doc.specialty)
+  }));
+   setDoctors(doctorsWithIcons);
+  } catch (err) {
+   console.error("Failed to fetch doctors", err);
+  }
+ };
+ const getStatusColor = (status: string) => {
+  switch (status) {
+   case "confirmed": return "bg-green-100 text-green-800";
+   case "pending": return "bg-yellow-100 text-yellow-800";
+   case "cancelled": return "bg-red-100 text-red-800";
+   default: return "bg-gray-100 text-gray-800";
+  }
+ };
+ const getSpecialtyIcon = (specialty: string) => {
+ switch(specialty) {
+ case "Cardiology": return Heart;
+ case "Dermatology": return Eye;
+ case "General Practice": return Stethoscope;
+ case "Neurology": return Brain;
+case "Orthopedics": return Bone;
+ default: return Stethoscope;
+ }
+};
+ const deleteAppointment = async (id: string) => {
+ try {
+await axios.delete(`${BACKEND_URL}/api/appointments-scheduler/appointments/${id}`);
+ fetchAppointments();
+ } catch (err) {
+ console.error("Failed to delete appointment", err);
+ }
+ };
+const generateCalendarDays = () => {
+ const year = currentMonth.getFullYear();
+ const month = currentMonth.getMonth();
+ const firstDay = new Date(year, month, 1);
+ const startDate = new Date(firstDay);
+ startDate.setDate(startDate.getDate() - firstDay.getDay());
+const days = [];
+ const currentDate = new Date(startDate);
+for (let i = 0; i < 42; i++) {
+ days.push(new Date(currentDate));
+currentDate.setDate(currentDate.getDate() + 1);
+}
+ return days;
+ };
+ const getLocalDateString = (date: Date) => {
+ const year = date.getFullYear();
+ const month = (date.getMonth() + 1).toString().padStart(2, '0');
+ const day = date.getDate().toString().padStart(2, '0');
+ return `${year}-${month}-${day}`;
+ };
+ const hasAppointmentOnDate = (date: Date) => {
+const dateStr = getLocalDateString(date);
+ return appointments.some(a => a.date === dateStr);
+ };
+ const navigateMonth = (direction: 'prev' | 'next') => {
+ setCurrentMonth(prev => {
+ const newMonth = new Date(prev);
+ newMonth.setMonth(prev.getMonth() + (direction === 'next' ? 1 : -1));
+ return newMonth;
+});
+ };
+ return (
+ <PageLayout title="Appointment Scheduler" subtitle="Manage appointments & notifications">
+<div className="mb-6">
+ {notifications.map(n => (
+<Card key={n.id} className="mb-2">
+ <CardHeader>
+ <CardTitle>{n.title}</CardTitle>
+ <Badge className={getStatusColor(n.priority)}>{n.type}</Badge>
+ </CardHeader>
+ <CardContent>
+<p>{n.message}</p><small>{n.time}</small>
+ </CardContent>
+ </Card>
+ ))}
+ </div>
+<Separator className="my-4" />
+<Card className="mb-6">
+  <CardHeader className="flex items-center justify-between">
+    <Button variant="outline" size="sm" onClick={() => navigateMonth('prev')}>
+      <ChevronLeft className="w-4 h-4" />
+    </Button>
+    <h3 className="text-lg font-medium text-green-900">
+      {currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}
+    </h3>
+    <Button variant="outline" size="sm" onClick={() => navigateMonth('next')}>
+      <ChevronRight className="w-4 h-4" />
+    </Button>
+  </CardHeader>
+  <CardContent className="p-0">
+    <div className="grid grid-cols-7 text-center">
+      {/* Weekday Headers */}
+      {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d => (
+        <div key={d} className="h-10 flex items-center justify-center text-sm font-medium text-green-700 border-b border-green-200">
+          {d}
+        </div>
+      ))}
 
-const AppointmentScheduler = () => {
-  const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [isBookingOpen, setIsBookingOpen] = useState(false);
+      {/* Calendar Days */}
+      {generateCalendarDays().map((day, idx) => {
+        const isCurrentMonth = day.getMonth() === currentMonth.getMonth();
+        const dateStr = getLocalDateString(day);
+        const hasApt = appointments.some(a => a.date === dateStr);
 
-  const [appointments, setAppointments] = useState<Appointment[]>([]);
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
-  const [selectedDoctor, setSelectedDoctor] = useState("");
-  const [timeSlots, setTimeSlots] = useState<string[]>([]);
-  const [selectedTime, setSelectedTime] = useState("");
+        return (
+          <div
+            key={idx}
+            className={`
+              flex items-center justify-center 
+              h-12 border border-green-200 text-sm
+              ${isCurrentMonth ? 'bg-green-50 text-green-900' : 'bg-green-100 text-green-300'}
+              ${hasApt ? 'bg-green-500 text-white font-semibold' : ''}
+              cursor-pointer
+            `}
+          >
+            {day.getDate()}
+          </div>
+        );
+      })}
+    </div>
+  </CardContent>
+</Card>
 
-  // Fetch all backend data
-  useEffect(() => {
-    fetchAppointments();
-    fetchNotifications();
-    fetchDoctors();
-  }, []);
 
-  useEffect(() => {
-    const doctor = doctors.find(d => d.id === selectedDoctor);
-    setTimeSlots(doctor?.availableSlots || []);
-  }, [selectedDoctor, doctors]);
 
-  const fetchAppointments = async () => {
-    try {
-      const res = await axios.get(`${BACKEND_URL}/api/appointments-scheduler/appointments`);
-      setAppointments(res.data.data || []);
-    } catch (err) {
-      console.error("Failed to fetch appointments", err);
-    }
-  };
 
-  const fetchNotifications = async () => {
-    try {
-      const res = await axios.get(`${BACKEND_URL}/api/appointments-scheduler/notifications`);
-      setNotifications(res.data.data || []);
-    } catch (err) {
-      console.error("Failed to fetch notifications", err);
-    }
-  };
+   <Separator className="my-4" />
 
-  const fetchDoctors = async () => {
-    try {
-      const res = await axios.get(`${BACKEND_URL}/api/appointments-scheduler/doctors`);
-      const doctorsWithIcons = res.data.data.map((doc: any) => ({
-        ...doc,
-        icon: getSpecialtyIcon(doc.specialty)
-      }));
-      setDoctors(doctorsWithIcons);
-    } catch (err) {
-      console.error("Failed to fetch doctors", err);
-    }
-  };
-
-  const markNotificationAsRead = async (id: string) => {
-    try {
-      await axios.put(`${BACKEND_URL}/api/notifications/${id}/read`);
-      setNotifications(prev =>
-        prev.map(n => n.id === id ? { ...n, read: true } : n)
-      );
-    } catch (err) {
-      console.error("Failed to mark notification as read", err);
-    }
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "confirmed": return "bg-green-100 text-green-800";
-      case "pending": return "bg-yellow-100 text-yellow-800";
-      case "cancelled": return "bg-red-100 text-red-800";
-      default: return "bg-gray-100 text-gray-800";
-    }
-  };
-
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "confirmed": return <CheckCircle2 className="w-4 h-4" />;
-      case "pending": return <AlertCircle className="w-4 h-4" />;
-      case "cancelled": return <XCircle className="w-4 h-4" />;
-      default: return <Clock className="w-4 h-4" />;
-    }
-  };
-
-  const getSpecialtyIcon = (specialty: string) => {
-    switch(specialty) {
-      case "Cardiology": return Heart;
-      case "Dermatology": return Eye;
-      case "General Practice": return Stethoscope;
-      case "Neurology": return Brain;
-      case "Orthopedics": return Bone;
-      default: return Stethoscope;
-    }
-  };
-
-  const generateCalendarDays = () => {
-    const year = currentMonth.getFullYear();
-    const month = currentMonth.getMonth();
-    const firstDay = new Date(year, month, 1);
-    const startDate = new Date(firstDay);
-    startDate.setDate(startDate.getDate() - firstDay.getDay());
-    const days = [];
-    const currentDate = new Date(startDate);
-    for (let i = 0; i < 42; i++) {
-      days.push(new Date(currentDate));
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
-    return days;
-  };
-
-  const hasAppointmentOnDate = (date: Date) => {
-    const dateStr = date.toISOString().split('T')[0];
-    return appointments.some(a => a.date === dateStr);
-  };
-
-  const getAppointmentsForDate = (date: Date) => {
-    const dateStr = date.toISOString().split('T')[0];
-    return appointments.filter(a => a.date === dateStr);
-  };
-
-  const navigateMonth = (direction: 'prev' | 'next') => {
-    setCurrentMonth(prev => {
-      const newMonth = new Date(prev);
-      newMonth.setMonth(prev.getMonth() + (direction === 'next' ? 1 : -1));
-      return newMonth;
-    });
-  };
-
-  // Submit new appointment
-  const bookAppointment = async () => {
-    if (!selectedDoctor || !selectedDate || !selectedTime) return;
-    try {
-      const doctor = doctors.find(d => d.id === selectedDoctor);
-      const newApt = {
-        date: selectedDate.toISOString().split('T')[0],
-        time: selectedTime,
-        doctorId: selectedDoctor,
-        doctor: doctor?.name,
-        specialty: doctor?.specialty,
-        type: "in-person",
-        status: "pending"
-      };
-      await axios.post(`${BACKEND_URL}/api/appointments`, newApt);
-      fetchAppointments();
-      setIsBookingOpen(false);
-    } catch (err) {
-      console.error("Failed to book appointment", err);
-    }
-  };
-
-  return (
-    <PageLayout title="Appointment Scheduler" subtitle="Manage appointments & notifications">
-      {/* Notifications & Calendar / Booking ... */}
-      {/* Keep your existing JSX, but replace all hardcoded appointments, notifications, doctors, and timeSlots with state */}
-      {/* Use fetchAppointments, fetchNotifications, doctors state, timeSlots state */}
-    </PageLayout>
-  );
+   {/* Appointments (omitted for brevity) */}
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    {appointments.map(a => {
+    const doctor = doctors.find(d => d.id === a.doctorId);
+     const Icon = doctor?.icon || Stethoscope;
+    return (
+     <Card key={a.id}>
+    <CardHeader className="flex items-center justify-between">
+   <div className="flex items-center gap-2">
+    <Icon className="w-5 h-5" />
+   <CardTitle>{doctor?.name || "Unknown Doctor"}</CardTitle>
+  </div>
+<div className="flex items-center gap-2">
+ <Badge className={getStatusColor(a.status)}>{a.status}</Badge>
+ <Button
+ variant="outline" 
+ size="sm"
+ onClick={() => deleteAppointment(a.id)}
+ className="flex items-center gap-1 border-green-600 text-green-600 hover:bg-green-700"
+ >
+ Delete
+ </Button>
+ </div>
+ </CardHeader>
+ <CardContent>
+ <p>Date: {a.date}</p>
+ <p>Time: {a.time}</p>
+ {a.location && <p>Location: {a.location}</p>}
+ {a.notes && <p>Notes: {a.notes}</p>}
+</CardContent>
+ </Card>
+ );
+ })}
+ </div>
+ </PageLayout>
+ );
 };
 
 export default AppointmentScheduler;

@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Landing from "./pages/Landing";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import Appointments from "./pages/Appointments";
@@ -13,7 +14,6 @@ import Genomics from "./pages/Genomics";
 import EmotionCognition from "./pages/EmotionCognition";
 import WellnessPlans from "./pages/WellnessPlans";
 import Emergency from "./pages/Emergency";
-import EmergencyAlerts from "./pages/EmergencyAlerts";
 import Pharmacy from "./pages/Pharmacy";
 import MentorCommunity from "./pages/MentorCommunity";
 import HealthVault from "./pages/HealthVault";
@@ -38,7 +38,8 @@ const App = () => (
     <TooltipProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
+          <Route path="/" element={<Landing />} />
+          <Route path="/index" element={<Index />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/appointments" element={<Appointments />} />
           <Route path="/medication" element={<Medication />} />
@@ -48,7 +49,6 @@ const App = () => (
           <Route path="/emotion-cognition" element={<EmotionCognition />} />
           <Route path="/wellness-plans" element={<WellnessPlans />} />
           <Route path="/emergency" element={<Emergency />} />
-          <Route path="/emergency-alerts" element={<EmergencyAlerts />} />
           <Route path="/pharmacy" element={<Pharmacy />} />
           <Route path="/mentor-community" element={<MentorCommunity />} />
           <Route path="/health-vault" element={<HealthVault />} />
