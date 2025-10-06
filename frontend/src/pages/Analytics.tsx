@@ -1,7 +1,6 @@
 import PageLayout from "@/components/PageLayout";
 import { ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Line, LineChart, CartesianGrid, XAxis, YAxis } from "recharts";
-
 const data = [
   { day: "Mon", value: 62 },
   { day: "Tue", value: 70 },
@@ -11,7 +10,6 @@ const data = [
   { day: "Sat", value: 78 },
   { day: "Sun", value: 74 },
 ];
-
 const Analytics = () => {
   return (
     <PageLayout title="Analytics" subtitle="Trends and long-term insights">
@@ -34,6 +32,5 @@ const Analytics = () => {
     </PageLayout>
   );
 };
-
 export default Analytics;
 

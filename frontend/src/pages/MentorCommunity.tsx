@@ -1,5 +1,4 @@
 import PageLayout from "@/components/PageLayout";
-
 const MentorCommunity = () => {
   return (
     <PageLayout title="Health Mentor & Community" subtitle="Connect and get support">

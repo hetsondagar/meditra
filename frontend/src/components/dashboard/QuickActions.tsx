@@ -6,7 +6,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calendar, Pill, MessageCircle, FileText, Camera, AlertTriangle, Plus } from "lucide-react";
-
 const iconMap: Record<string, any> = {
   appointment: Calendar,
   medication: Pill,
@@ -15,13 +14,10 @@ const iconMap: Record<string, any> = {
   nutrition: Camera,
   emergency: AlertTriangle,
 };
-
 export const QuickActions = () => {
   const [reminders, setReminders] = useState<any[]>([]);
   const [appointments, setAppointments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-
-  // Modal states
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
@@ -36,7 +32,6 @@ export const QuickActions = () => {
           axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/dashboard/quick-actions/appointments`),
           axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/appointments-scheduler/doctors`),
         ]);
-
         if (remindersRes.data.success) setReminders(remindersRes.data.data);
         if (appointmentsRes.data.success) setAppointments(appointmentsRes.data.data);
         if (doctorsRes.data.success) setDoctors(doctorsRes.data.data);
@@ -46,10 +41,8 @@ export const QuickActions = () => {
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
-
   const handleBookAppointment = async () => {
   if (!selectedDoctor || !selectedDate || !selectedTime) return;
   try {
@@ -63,23 +56,15 @@ export const QuickActions = () => {
         status: "pending",
       }
     );
-
-    // Close modal
     setIsBookingOpen(false);
-
-    // Reset modal fields
     setSelectedDoctor("");
     setSelectedDate("");
     setSelectedTime("");
-
   } catch (err) {
     console.error("Failed to book appointment", err);
   }
 };
-
-
   if (loading) return <p className="text-center text-muted-foreground">Loading quick actions...</p>;
-
   const actions = [
     ...reminders.map((r) => ({
       title: r.type === "medication" ? "Medication Reminder" : r.type,
@@ -117,10 +102,8 @@ export const QuickActions = () => {
       urgent: true,
     },
   ];
-
   return (
     <div className="space-y-8">
-      {/* Header Section */}
       <div className="flex items-center justify-between">
         <div className="space-y-1">
           <h2 className="text-2xl font-bold text-card-foreground">Quick Actions</h2>
@@ -131,8 +114,6 @@ export const QuickActions = () => {
           Customize
         </Button>
       </div>
-
-      {/* Actions Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {actions.map((action, index) => {
           if (action.title === "Book Appointment") {
@@ -176,8 +157,6 @@ export const QuickActions = () => {
                     </Card>
                   </div>
                 </DialogTrigger>
-
-                {/* Modal Content */}
                 <DialogContent className="sm:max-w-[500px]">
                   <DialogHeader>
                     <DialogTitle>Book Appointment</DialogTitle>
@@ -214,7 +193,6 @@ export const QuickActions = () => {
               </Dialog>
             );
           }
-
           return (
             <div key={index} className="animate-fade-in-up w-full" style={{ animationDelay: `${index * 100}ms` }}>
               <Card

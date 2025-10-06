@@ -1,5 +1,4 @@
 import PageLayout from "@/components/PageLayout";
-
 const NutritionScanner = () => {
   return (
     <PageLayout title="AI-Powered Nutrition Scanner" subtitle="Scan meals and get insights">
@@ -16,6 +15,5 @@ const NutritionScanner = () => {
     </PageLayout>
   );
 };
-
 export default NutritionScanner;
 

@@ -1,5 +1,4 @@
 import PageLayout from "@/components/PageLayout";
-
 const Medication = () => {
   return (
     <PageLayout title="Medication Tracker" subtitle="Reminders, refills and dispenser status">
@@ -20,7 +19,6 @@ const Medication = () => {
     </PageLayout>
   );
 };
-
 export default Medication;
 /*import { useState, useEffect } from "react";
 import PageLayout from "@/components/PageLayout";

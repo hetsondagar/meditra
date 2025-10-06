@@ -1,5 +1,4 @@
 import PageLayout from "@/components/PageLayout";
-
 const VirtualConsultation = () => {
   return (
     <PageLayout title="Virtual Consultation" subtitle="Join secure video sessions and chat">
@@ -16,6 +15,5 @@ const VirtualConsultation = () => {
     </PageLayout>
   );
 };
-
 export default VirtualConsultation;
 

@@ -12,7 +12,7 @@ export const Header = () => {
   const location = useLocation();
 
   const navigationItems = [
-    { label: "Dashboard", href: "/" },
+    { label: "Dashboard", href: "/dashboard" },
     { label: "Patient Profile", href: "/patient-profile" },
     { label: "Appointments", href: "/appointment-scheduler" },
     { label: "Analytics", href: "/health-analytics" },

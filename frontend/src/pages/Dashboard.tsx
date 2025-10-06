@@ -3,7 +3,6 @@ import { HealthMetrics } from "@/components/dashboard/HealthMetrics";
 import { QuickActions } from "@/components/dashboard/QuickActions";
 import { TodaysPlan } from "@/components/dashboard/TodaysPlan";
 import { RecentReports } from "@/components/dashboard/RecentReports";
-
 const Dashboard = () => {
   return (
     <PageLayout title="Home / Dashboard" subtitle="Personalized health insights">
@@ -18,6 +17,5 @@ const Dashboard = () => {
     </PageLayout>
   );
 };
-
 export default Dashboard;
 

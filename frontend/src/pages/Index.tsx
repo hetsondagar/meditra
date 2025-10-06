@@ -4,12 +4,10 @@ import { QuickActions } from "@/components/dashboard/QuickActions";
 import { TodaysPlan } from "@/components/dashboard/TodaysPlan";
 import { RecentReports } from "@/components/dashboard/RecentReports";
 import { Link } from "react-router-dom";
-
 const Index = () => {
   return (
     <PageLayout title="">
       <div className="space-y-12">
-        {/* Welcome Section */}
         <section className="text-center space-y-4 animate-fade-in">
           <div className="space-y-2">
             <h1 className="text-4xl lg:text-5xl font-bold text-card-foreground">
@@ -22,7 +20,6 @@ const Index = () => {
               Your comprehensive health management platform powered by AI and designed for your well-being
             </p>
           </div>
-          
           <div className="flex items-center justify-center gap-6 pt-4">
             <div className="flex items-center gap-2 text-success">
               <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
@@ -34,29 +31,20 @@ const Index = () => {
             </div>
           </div>
         </section>
-
-        {/* Health Metrics */}
         <section className="animate-fade-in-up" style={{ animationDelay: "200ms" }}>
           <HealthMetrics />
         </section>
-
-        {/* Today's Plan and Quick Actions */}
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
           <section className="xl:col-span-2 animate-fade-in-up" style={{ animationDelay: "400ms" }}>
             <TodaysPlan />
           </section>
-          
           <section className="animate-fade-in-up" style={{ animationDelay: "600ms" }}>
             <QuickActions />
           </section>
         </div>
-
-        {/* Recent Reports */}
         <section className="animate-fade-in-up" style={{ animationDelay: "800ms" }}>
           <RecentReports />
         </section>
-
-        {/* New Interactive Features */}
         <section className="animate-fade-in-up" style={{ animationDelay: "900ms" }}>
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold mb-2">🌟 New Interactive Features</h2>
@@ -86,13 +74,10 @@ const Index = () => {
             ))}
           </div>
         </section>
-
-        {/* All Features */}
         <section className="animate-fade-in-up" style={{ animationDelay: "1000ms" }}>
           <h2 className="text-xl font-semibold mb-4">All Features</h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[
-              // Existing Pages
               ["Appointments", "/appointments"],
               ["Medication", "/medication"],
               ["Health Records", "/records"],
@@ -117,8 +102,6 @@ const Index = () => {
             ))}
           </div>
         </section>
-
-        {/* Footer CTA */}
         <section className="text-center py-12 animate-fade-in-up" style={{ animationDelay: "1100ms" }}>
           <div className="glass rounded-2xl p-8 max-w-4xl mx-auto border border-border/30">
             <h2 className="text-2xl font-bold text-card-foreground mb-4">
@@ -142,5 +125,4 @@ const Index = () => {
     </PageLayout>
   );
 };
-
 export default Index;

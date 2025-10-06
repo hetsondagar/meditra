@@ -1,5 +1,4 @@
 import PageLayout from "@/components/PageLayout";
-
 const HealthVault = () => {
   return (
     <PageLayout title="Blockchain Health Vault" subtitle="Secure records and privacy controls">
@@ -16,9 +15,7 @@ const HealthVault = () => {
     </PageLayout>
   );
 };
-
 export default HealthVault;
-
 /*import { useState, useEffect } from "react";
 import PageLayout from "@/components/PageLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

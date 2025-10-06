@@ -1,5 +1,4 @@
 import PageLayout from "@/components/PageLayout";
-
 const Settings = () => {
   return (
     <PageLayout title="Settings & Profile" subtitle="Personalize your experience">
@@ -16,6 +15,5 @@ const Settings = () => {
     </PageLayout>
   );
 };
-
 export default Settings;
 

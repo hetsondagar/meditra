@@ -1,5 +1,4 @@
 import PageLayout from "@/components/PageLayout";
-
 const Trials = () => {
   return (
     <PageLayout title="Clinical Trial Matching" subtitle="Find relevant studies near you">
@@ -10,6 +9,5 @@ const Trials = () => {
     </PageLayout>
   );
 };
-
 export default Trials;
 

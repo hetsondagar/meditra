@@ -1,5 +1,4 @@
 import PageLayout from "@/components/PageLayout";
-
 const Emergency = () => {
   return (
     <PageLayout title="Emergency Alerts" subtitle="Quick actions and critical notifications">
@@ -10,6 +9,5 @@ const Emergency = () => {
     </PageLayout>
   );
 };
-
 export default Emergency;
 

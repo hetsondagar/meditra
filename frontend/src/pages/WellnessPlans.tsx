@@ -1,5 +1,4 @@
 import PageLayout from "@/components/PageLayout";
-
 const WellnessPlans = () => {
   return (
     <PageLayout title="Wellness Plans & Nudges" subtitle="Daily tips and exercises">
@@ -20,6 +19,5 @@ const WellnessPlans = () => {
     </PageLayout>
   );
 };
-
 export default WellnessPlans;
 

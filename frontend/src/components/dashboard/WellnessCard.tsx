@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 import { LucideIcon } from "lucide-react";
-
 interface WellnessCardProps {
   title: string;
   value: string;
@@ -10,7 +9,6 @@ interface WellnessCardProps {
   trend?: "up" | "down" | "stable";
   className?: string;
 }
-
 export const WellnessCard = ({ 
   title, 
   value, 
@@ -26,14 +24,12 @@ export const WellnessCard = ({
     warning: "bg-gradient-to-br from-amber-200 to-orange-200 dark:from-amber-500/20 dark:to-orange-500/20 border-warning/30",
     info: "bg-gradient-to-br from-sky-200 to-cyan-200 dark:from-sky-500/20 dark:to-cyan-500/20 border-accent/30"
   };
-
   const iconVariants = {
     default: "text-primary",
     success: "text-white",
     warning: "text-warning-foreground",
     info: "text-secondary-dark"
   };
-
   return (
     <div className={cn(
       "border p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow",
@@ -59,7 +55,6 @@ export const WellnessCard = ({
           </div>
         )}
       </div>
-
       <div className="space-y-2">
         <h3 className="font-medium text-card-foreground/80 text-sm">{title}</h3>
         <p className={cn(
