@@ -1,5 +1,4 @@
 import PageLayout from "@/components/PageLayout";
-
 const Genomics = () => {
   return (
     <PageLayout title="Genomic & Biomarker Insights" subtitle="Personalized reports and suggestions">
@@ -10,6 +9,5 @@ const Genomics = () => {
     </PageLayout>
   );
 };
-
 export default Genomics;
 

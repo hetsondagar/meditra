@@ -1,5 +1,4 @@
 import PageLayout from "@/components/PageLayout";
-
 const Appointments = () => {
   return (
     <PageLayout title="Appointments & Virtual Consultation" subtitle="Schedule and join virtual visits">
@@ -16,9 +15,7 @@ const Appointments = () => {
     </PageLayout>
   );
 };
-
 export default Appointments;
-
 /*import { useState, useEffect } from "react";
 import axios from "axios";
 import PageLayout from "@/components/PageLayout";

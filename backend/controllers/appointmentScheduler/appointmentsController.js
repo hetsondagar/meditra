@@ -1,7 +1,7 @@
 let appointments = [
   {
     id: "1",
-    date: "2024-01-15",
+    date: "2025-10-15",
     time: "11:30 AM",
     doctorId: "1",
     type: "in-person",
@@ -11,7 +11,7 @@ let appointments = [
   },
   {
     id: "2",
-    date: "2024-01-20",
+    date: "2025-10-20",
     time: "2:00 PM",
     doctorId: "2",
     type: "virtual",
@@ -20,7 +20,7 @@ let appointments = [
   },
   {
     id: "3",
-    date: "2024-01-25",
+    date: "2025-10-10",
     time: "10:00 AM",
     doctorId: "3",
     type: "in-person",

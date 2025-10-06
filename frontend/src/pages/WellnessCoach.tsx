@@ -27,7 +27,6 @@ import {
   Mountain,
   TreePine
 } from "lucide-react";
-
 interface BreathingExercise {
   id: string;
   name: string;
@@ -39,7 +38,6 @@ interface BreathingExercise {
   color: string;
   icon: React.ReactNode;
 }
-
 interface Meditation {
   id: string;
   title: string;
@@ -49,7 +47,6 @@ interface Meditation {
   icon: React.ReactNode;
   color: string;
 }
-
 interface WellnessTip {
   id: string;
   title: string;
@@ -57,12 +54,10 @@ interface WellnessTip {
   icon: React.ReactNode;
   color: string;
 }
-
 interface Quote {
   text: string;
   author: string;
 }
-
 const WellnessCoach = () => {
   const [isBreathing, setIsBreathing] = useState(false);
   const [breathingPhase, setBreathingPhase] = useState<'inhale' | 'hold' | 'exhale'>('inhale');
@@ -76,11 +71,9 @@ const WellnessCoach = () => {
   const [typedQuote, setTypedQuote] = useState("");
   const [volume, setVolume] = useState([50]);
   const [isMuted, setIsMuted] = useState(false);
-  
   const breathingIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const tipIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const quoteIntervalRef = useRef<NodeJS.Timeout | null>(null);
-
   const breathingExercises: BreathingExercise[] = [
     {
       id: "1",
@@ -116,7 +109,6 @@ const WellnessCoach = () => {
       icon: <Moon className="w-5 h-5" />
     }
   ];
-
   const meditations: Meditation[] = [
     {
       id: "1",
@@ -155,7 +147,6 @@ const WellnessCoach = () => {
       color: "text-purple-600"
     }
   ];
-
   const wellnessTips: WellnessTip[] = [
     {
       id: "1",
@@ -193,7 +184,6 @@ const WellnessCoach = () => {
       color: "text-orange-600"
     }
   ];
-
   const quotes: Quote[] = [
     {
       text: "The present moment is the only time over which we have dominion.",
@@ -216,30 +206,23 @@ const WellnessCoach = () => {
       author: "Eckhart Tolle"
     }
   ];
-
   useEffect(() => {
     setSelectedExercise(breathingExercises[0]);
     setCurrentQuote(quotes[0]);
-    
-    // Auto-rotate tips
-    tipIntervalRef.current = setInterval(() => {
+        tipIntervalRef.current = setInterval(() => {
       setCurrentTipIndex(prev => (prev + 1) % wellnessTips.length);
     }, 5000);
-
-    // Auto-rotate quotes with typing effect
     quoteIntervalRef.current = setInterval(() => {
       const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
       setCurrentQuote(randomQuote);
       typeQuote(randomQuote.text);
     }, 10000);
-
     return () => {
       if (tipIntervalRef.current) clearInterval(tipIntervalRef.current);
       if (quoteIntervalRef.current) clearInterval(quoteIntervalRef.current);
       if (breathingIntervalRef.current) clearInterval(breathingIntervalRef.current);
     };
   }, []);
-
   const typeQuote = (text: string) => {
     setIsTyping(true);
     setTypedQuote("");
@@ -254,24 +237,19 @@ const WellnessCoach = () => {
       }
     }, 50);
   };
-
   const startBreathing = () => {
     if (!selectedExercise) return;
-    
     setIsBreathing(true);
     setBreathingProgress(0);
     setBreathingPhase('inhale');
-    
     const totalTime = selectedExercise.inhaleTime + selectedExercise.holdTime + selectedExercise.exhaleTime;
-    const intervalTime = 100; // Update every 100ms
+    const intervalTime = 100; 
     const totalSteps = (totalTime * 1000) / intervalTime;
     let currentStep = 0;
-    
     breathingIntervalRef.current = setInterval(() => {
       currentStep++;
       const progress = (currentStep / totalSteps) * 100;
       setBreathingProgress(progress);
-      
       if (progress <= (selectedExercise.inhaleTime / totalTime) * 100) {
         setBreathingPhase('inhale');
       } else if (progress <= ((selectedExercise.inhaleTime + selectedExercise.holdTime) / totalTime) * 100) {
@@ -279,14 +257,12 @@ const WellnessCoach = () => {
       } else {
         setBreathingPhase('exhale');
       }
-      
       if (currentStep >= totalSteps) {
         currentStep = 0;
         setBreathingProgress(0);
       }
     }, intervalTime);
   };
-
   const stopBreathing = () => {
     setIsBreathing(false);
     setBreathingProgress(0);
@@ -295,7 +271,6 @@ const WellnessCoach = () => {
       clearInterval(breathingIntervalRef.current);
     }
   };
-
   const getBreathingColor = () => {
     switch (breathingPhase) {
       case 'inhale': return 'text-green-600';
@@ -304,10 +279,8 @@ const WellnessCoach = () => {
       default: return 'text-gray-600';
     }
   };
-
   const getBreathingSize = () => {
     if (!isBreathing) return 200;
-    
     switch (breathingPhase) {
       case 'inhale': return 200 + (breathingProgress * 2);
       case 'hold': return 300;
@@ -315,14 +288,12 @@ const WellnessCoach = () => {
       default: return 200;
     }
   };
-
   return (
     <PageLayout 
       title="Wellness Coach" 
       subtitle="Mindfulness, meditation, and wellness guidance for your health journey"
     >
       <div className="space-y-8">
-        {/* Breathing Exercise */}
         <Card className="animate-fade-in-up bg-gradient-to-r from-blue-900/20 to-purple-900/20 border border-blue-500/20">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
@@ -332,7 +303,6 @@ const WellnessCoach = () => {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Breathing Circle */}
               <div className="flex flex-col items-center justify-center space-y-6">
                 <div className="relative">
                   <div 
@@ -387,8 +357,6 @@ const WellnessCoach = () => {
                   </Button>
                 </div>
               </div>
-
-              {/* Exercise Selection */}
               <div className="space-y-4">
                 <h3 className="font-medium text-foreground mb-4">Choose Exercise</h3>
                 {breathingExercises.map((exercise, index) => (
@@ -422,9 +390,7 @@ const WellnessCoach = () => {
             </div>
           </CardContent>
         </Card>
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Meditation Player */}
           <Card className="animate-fade-in-up bg-card/50 border-border/50">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
@@ -480,9 +446,7 @@ const WellnessCoach = () => {
                   </div>
                 ))}
               </div>
-              
-              {/* Audio Controls */}
-              {currentMeditation && (
+                            {currentMeditation && (
                 <div className="mt-6 p-4 bg-card/30 border border-border/50 rounded-lg">
                   <div className="flex items-center justify-between mb-4">
                     <div>
@@ -521,8 +485,6 @@ const WellnessCoach = () => {
               )}
             </CardContent>
           </Card>
-
-          {/* Wellness Tips Carousel */}
           <Card className="animate-fade-in-up bg-card/50 border-border/50">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
@@ -532,7 +494,6 @@ const WellnessCoach = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
-                {/* Current Tip */}
                 <div className="p-6 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 rounded-lg border border-yellow-500/30">
                   <div className="flex items-center space-x-3 mb-4">
                     <div className={`p-3 rounded-full bg-yellow-500/20 border border-yellow-500/30 ${wellnessTips[currentTipIndex]?.color}`}>
@@ -548,8 +509,6 @@ const WellnessCoach = () => {
                     </div>
                   </div>
                 </div>
-
-                {/* Tip Indicators */}
                 <div className="flex justify-center space-x-2">
                   {wellnessTips.map((_, index) => (
                     <div
@@ -560,8 +519,6 @@ const WellnessCoach = () => {
                     />
                   ))}
                 </div>
-
-                {/* All Tips Preview */}
                 <div className="space-y-3">
                   <h4 className="font-medium text-foreground">All Tips</h4>
                   {wellnessTips.map((tip, index) => (
@@ -590,8 +547,6 @@ const WellnessCoach = () => {
             </CardContent>
           </Card>
         </div>
-
-        {/* Inspirational Quote */}
         <Card className="animate-fade-in-up bg-gradient-to-r from-purple-900/20 to-pink-900/20 border border-purple-500/20">
           <CardContent className="p-8">
             <div className="text-center">
@@ -599,7 +554,6 @@ const WellnessCoach = () => {
                 <Sparkles className="w-8 h-8 text-purple-400 mx-auto mb-4" />
                 <h3 className="text-lg font-medium text-foreground mb-4">Daily Inspiration</h3>
               </div>
-              
               <div className="max-w-2xl mx-auto">
                 <blockquote className="text-xl text-foreground mb-4 min-h-[3rem]">
                   {isTyping ? (
@@ -618,8 +572,6 @@ const WellnessCoach = () => {
             </div>
           </CardContent>
         </Card>
-
-        {/* Daily Challenges */}
         <Card className="animate-fade-in-up bg-card/50 border-border/50">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">

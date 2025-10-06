@@ -132,7 +132,7 @@ export default function HealthAnalytics() {
                   <Line
                     type="monotone"
                     dataKey="value"
-                    stroke="#16a34a"
+                    stroke="#eb4908ff"
                     strokeWidth={2}
                   />
                 </LineChart>

@@ -3,7 +3,6 @@ import axios from "axios";
 import { FileText, Download, Eye, Calendar } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-
 interface Report {
   id: string;
   title?: string;
@@ -12,11 +11,9 @@ interface Report {
   status?: "normal" | "attention" | "critical";
   doctor?: string;
 }
-
 export const RecentReports = () => {
   const [reports, setReports] = useState<Report[]>([]);
   const [loading, setLoading] = useState(true);
-
   const getStatusColor = (status?: string) => {
     switch (status) {
       case "normal":
@@ -29,7 +26,6 @@ export const RecentReports = () => {
         return "text-muted-foreground bg-muted/20";
     }
   };
-
   const getStatusText = (status?: string) => {
     switch (status) {
       case "normal":
@@ -42,7 +38,6 @@ export const RecentReports = () => {
         return "Pending";
     }
   };
-
   useEffect(() => {
     const fetchReports = async () => {
       try {
@@ -56,12 +51,10 @@ export const RecentReports = () => {
     };
     fetchReports();
   }, []);
-
   if (loading)
     return <p className="text-center text-muted-foreground">Loading reports...</p>;
   if (!reports.length)
     return <p className="text-center text-destructive">No reports found.</p>;
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -80,14 +73,17 @@ export const RecentReports = () => {
           View All
         </Button>
       </div>
-
       <div className="space-y-3">
         {reports.map((report, index) => (
           <Card
-            key={report.id}
-            className="p-4 border-border/30 rounded-2xl hover-lift hover:shadow-xl transition-all duration-300 animate-fade-in"
-            style={{ animationDelay: `${index * 100}ms` }}
-          >
+  key={report.id}
+  className={`
+    p-4 border border-border/30 rounded-2xl transition-all duration-300
+    hover:shadow-lg hover:shadow-green-400/40 hover:-translate-y-1
+    animate-fade-in
+  `}
+  style={{ animationDelay: `${index * 100}ms` }}
+>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className="p-2 bg-primary/10 rounded-lg">
@@ -105,7 +101,6 @@ export const RecentReports = () => {
                   </div>
                 </div>
               </div>
-
               <div className="flex items-center gap-3">
                 <span
                   className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(
@@ -114,7 +109,6 @@ export const RecentReports = () => {
                 >
                   {getStatusText(report.status)}
                 </span>
-
                 <div className="flex items-center gap-1">
                   <Button
                     variant="ghost"

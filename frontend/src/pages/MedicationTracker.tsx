@@ -27,9 +27,7 @@ import {
   Heart,
   Shield
 } from "lucide-react";
-
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
-
 interface Medication {
   id: string;
   name: string;
@@ -42,14 +40,12 @@ interface Medication {
   color?: string;
   instructions?: string;
 }
-
 interface AdherenceData {
   date: string;
   taken: number;
   total: number;
   percentage: number;
 }
-
 interface BadgeItem {
   id: string;
   name: string;
@@ -59,20 +55,16 @@ interface BadgeItem {
   icon?: React.ReactNode;
   color?: string;
 }
-
 const MedicationTracker = () => {
   const [medications, setMedications] = useState<Medication[]>([]);
   const [adherenceData, setAdherenceData] = useState<AdherenceData[]>([]);
   const [badges, setBadges] = useState<BadgeItem[]>([]);
   const [showMissedAlert, setShowMissedAlert] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  // map med name/category -> icon & color for UI (keeps UI identical)
   const getMedicationIcon = (name: string, category?: string) => {
     if (/vitamin/i.test(name)) return <Sun className="w-5 h-5" />;
     if (/omega/i.test(name) || /fish/i.test(name)) return <Heart className="w-5 h-5" />;
     if (/magnesium/i.test(name)) return <Moon className="w-5 h-5" />;
-    // fallback: show pill for medicines
     return <Pill className="w-5 h-5" />;
   };
 
@@ -83,8 +75,6 @@ const MedicationTracker = () => {
     if (/magnesium/i.test(name)) return "text-purple-600";
     return "text-blue-600";
   };
-
-  // map categories to the same icons used in your UI
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case "morning":
@@ -114,20 +104,16 @@ const MedicationTracker = () => {
         return "bg-gray-100 text-gray-800";
     }
   };
-
   const getAdherenceColor = (percentage: number) => {
     if (percentage >= 90) return "text-green-600";
     if (percentage >= 70) return "text-yellow-600";
     return "text-red-600";
   };
-
   const getAdherenceBgColor = (percentage: number) => {
     if (percentage >= 90) return "bg-green-100";
     if (percentage >= 70) return "bg-yellow-100";
     return "bg-red-100";
   };
-
-  // map badge -> icons/colors consistent with UI
   const mapBadgeIconAndColor = (badge: BadgeItem) => {
     switch (badge.id) {
       case "1":
@@ -142,7 +128,6 @@ const MedicationTracker = () => {
         return { icon: <Award className="w-6 h-6" />, color: "text-yellow-600" };
     }
   };
-
   useEffect(() => {
   const fetchData = async () => {
     setLoading(true);
@@ -152,7 +137,6 @@ const MedicationTracker = () => {
         axios.get(`${BACKEND_URL}/api/medication/adherence`),
         axios.get(`${BACKEND_URL}/api/medication/badges`)
       ]);
-
       const meds: Medication[] = (medRes.data?.data || []).map((m: any) => ({
         id: String(m.id),
         name: m.name,
@@ -171,11 +155,9 @@ const MedicationTracker = () => {
         const { icon, color } = mapBadgeIconAndColor(b);
         return { ...b, icon, color };
       });
-
       setMedications(meds);
       setAdherenceData(adherence);
       setBadges(badges);
-
       const missedCount = meds.filter(m => !m.taken).length;
       setShowMissedAlert(missedCount > 0);
     } catch (err) {
@@ -184,39 +166,26 @@ const MedicationTracker = () => {
       setLoading(false);
     }
   };
-
   fetchData();
 }, []);
-
-
-  // Toggle medication taken/un-taken (optimistic UI update with backend call)
   const toggleMedication = async (id: string) => {
     const med = medications.find(m => m.id === id);
     if (!med) return;
-
     const newTaken = !med.taken;
-    // optimistic update
     setMedications(prev => prev.map(m => (m.id === id ? { ...m, taken: newTaken } : m)));
     setShowMissedAlert(prev => {
       const missed = medications.filter(m => m.id !== id && !m.taken).length + (newTaken ? 0 : 1);
       return missed > 0;
     });
-
     try {
-      // send update to backend (PATCH preferred for partial update)
-      // backend should accept this path or adjust accordingly
       await axios.patch(`${BACKEND_URL}/api/medication/${id}`, { taken: newTaken });
-      // optional: re-fetch adherence or keep optimistic local state
     } catch (err) {
-      // revert on failure
       console.error("Failed to update medication on backend:", err);
       setMedications(prev => prev.map(m => (m.id === id ? { ...m, taken: med.taken } : m)));
-      // recompute missed alert
       const missedCount = medications.filter(m => m.id !== id && !m.taken).length + (med.taken ? 0 : 1);
       setShowMissedAlert(missedCount > 0);
     }
   };
-
   if (loading) {
     return (
       <PageLayout
@@ -227,21 +196,18 @@ const MedicationTracker = () => {
       </PageLayout>
     );
   }
-
   const overallAdherence = adherenceData.length
     ? Math.round(adherenceData.reduce((sum, day) => sum + day.percentage, 0) / adherenceData.length)
     : 0;
   const todayMedications = medications.filter(med => !med.taken);
   const takenToday = medications.filter(med => med.taken).length;
   const totalToday = medications.length;
-
   return (
     <PageLayout
       title="Medication Tracker"
       subtitle="Stay on top of your medication schedule and track your adherence"
     >
       <div className="space-y-8">
-        {/* Missed Medication Alert */}
         {showMissedAlert && todayMedications.length > 0 && (
           <Card className="border-red-500/30 bg-red-500/10 animate-fade-in-up">
             <CardContent className="p-6">
@@ -265,8 +231,6 @@ const MedicationTracker = () => {
             </CardContent>
           </Card>
         )}
-
-        {/* Today's Overview */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card className="animate-fade-in-up bg-card/50 border-border/50">
             <CardContent className="p-6">
@@ -282,7 +246,6 @@ const MedicationTracker = () => {
               <Progress value={(totalToday ? (takenToday / totalToday) * 100 : 0)} className="mt-4" />
             </CardContent>
           </Card>
-
           <Card className="animate-fade-in-up bg-card/50 border-border/50">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
@@ -301,7 +264,6 @@ const MedicationTracker = () => {
               </div>
             </CardContent>
           </Card>
-
           <Card className="animate-fade-in-up bg-card/50 border-border/50">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
@@ -319,9 +281,7 @@ const MedicationTracker = () => {
             </CardContent>
           </Card>
         </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Today's Medication Schedule */}
           <Card className="animate-fade-in-up bg-card/50 border-border/50">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
@@ -378,9 +338,7 @@ const MedicationTracker = () => {
               </div>
             </CardContent>
           </Card>
-
-          {/* Adherence Timeline */}
-          <Card className="animate-fade-in-up bg-card/50 border-border/50">
+                    <Card className="animate-fade-in-up bg-card/50 border-border/50">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <TrendingUp className="w-5 h-5 text-blue-400" />
@@ -420,8 +378,6 @@ const MedicationTracker = () => {
             </CardContent>
           </Card>
         </div>
-
-        {/* Achievement Badges */}
         <Card className="animate-fade-in-up bg-card/50 border-border/50">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
@@ -461,8 +417,6 @@ const MedicationTracker = () => {
             </div>
           </CardContent>
         </Card>
-
-        {/* Quick Actions */}
         <Card className="animate-fade-in-up bg-gradient-to-r from-green-900/20 to-blue-900/20 border border-green-500/20">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
@@ -506,7 +460,6 @@ const MedicationTracker = () => {
     </PageLayout>
   );
 };
-
 export default MedicationTracker;
 
 

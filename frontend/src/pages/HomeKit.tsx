@@ -1,5 +1,4 @@
 import PageLayout from "@/components/PageLayout";
-
 const HomeKit = () => {
   return (
     <PageLayout title="IoT Home Health Kit" subtitle="Sync your devices and view metrics">
@@ -16,6 +15,5 @@ const HomeKit = () => {
     </PageLayout>
   );
 };
-
 export default HomeKit;
 

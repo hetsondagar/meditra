@@ -1,5 +1,4 @@
 import PageLayout from "@/components/PageLayout";
-
 const EmotionCognition = () => {
   return (
     <PageLayout title="Emotion & Cognitive Monitoring" subtitle="Trends and stress indicators">
@@ -16,6 +15,5 @@ const EmotionCognition = () => {
     </PageLayout>
   );
 };
-
 export default EmotionCognition;
 

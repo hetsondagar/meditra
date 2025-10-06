@@ -1,11 +1,14 @@
 exports.getMetrics = async (req, res) => {
   try {
     const metrics = {
-      heartRate: 70,
-      bloodPressure: "120/80",
-      steps: 3400,
-      caloriesBurned: 350,
+      heartRate: 76,              // bpm
+      bloodPressure: "118/79",    // mmHg
+      bloodSugar: 95,             // mg/dL (fasting)
+      stressLevel: 42,            // scale 0–100
+      sleepQuality: 84,           // score out of 100
+      energyLevel: 78             // percentage
     };
+
     res.status(200).json({
       success: true,
       message: "Health metrics fetched successfully",
@@ -13,9 +16,13 @@ exports.getMetrics = async (req, res) => {
     });
   } catch (error) {
     console.error("Error in getMetrics:", error);
-    res.status(500).json({ success: false, message: "Server error" });
+    res.status(500).json({
+      success: false,
+      message: "Server error while fetching health metrics",
+    });
   }
 };
+
 exports.getMetricsHistory = async (req, res) => {
   try {
     const { metric = "heartRate", range = "7days" } = req.query;

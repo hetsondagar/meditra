@@ -1,5 +1,4 @@
 import PageLayout from "@/components/PageLayout";
-
 const Records = () => {
   return (
     <PageLayout title="Digital Health Records" subtitle="Reports, scans and prescriptions">
@@ -12,6 +11,5 @@ const Records = () => {
     </PageLayout>
   );
 };
-
 export default Records;
 

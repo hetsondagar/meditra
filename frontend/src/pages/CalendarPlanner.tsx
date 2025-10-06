@@ -1,5 +1,4 @@
 import PageLayout from "@/components/PageLayout";
-
 const CalendarPlanner = () => {
   return (
     <PageLayout title="Calendar Planner" subtitle="Plan your week with smart insights">
@@ -16,6 +15,5 @@ const CalendarPlanner = () => {
     </PageLayout>
   );
 };
-
 export default CalendarPlanner;
 

@@ -1,5 +1,4 @@
 import PageLayout from "@/components/PageLayout";
-
 const Pharmacy = () => {
   return (
     <PageLayout title="Pharmacy & Smart Dispenser" subtitle="Orders and delivery tracking">
@@ -16,6 +15,5 @@ const Pharmacy = () => {
     </PageLayout>
   );
 };
-
 export default Pharmacy;
 
